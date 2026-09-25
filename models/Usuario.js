@@ -24,7 +24,9 @@ const usuarioSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["admin", "user"],
+      enum: {
+        values: ["admin", "user"],
+        message: "El rol {VALUE} no es válido"},
       default: "user",
     },
   },

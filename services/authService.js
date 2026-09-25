@@ -1,14 +1,17 @@
 const jwt = require("jsonwebtoken");
 const Usuario = require("../models/Usuario");
 
-async function registrar({ nombre, email, password }) {
+async function registrar({ nombre, email, password, rol }) {
   const usuarioExistente = await Usuario.findOne({ email });
   if (usuarioExistente)
     throw { status: 400, message: "El email ya está registrado" };
-  const usuario = new Usuario({ nombre, email, password });
-
+  const usuario = new Usuario({ nombre, email, password , rol});
+  
   await usuario.save();
   const token = generarToken(usuario);
+
+  const usuarioObj = usuario.toObject();
+  delete usuarioObj.password;
 
   return { usuario, token };
 };
@@ -23,6 +26,10 @@ async function login({ email, password }) {
     throw { status: 401, message: "La contraseña es incorrecta" };
 
   const token = generarToken(usuario);
+
+  const usuarioObj = usuario.toObject();
+  delete usuarioObj.password;
+
   return { usuario, token };
 }
 
