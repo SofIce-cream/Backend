@@ -7,9 +7,29 @@ const { verificarValidaciones } = require("../middleware/validators");
 
 const router = express.Router();
 
-// Todas las rutas de este archivo son solo para administradores
 router.use(autenticar, autorizar("admin"));
 
+/**
+ * @swagger
+ * tags:
+ *   name: Usuarios
+ *   description: Gestión de usuarios (solo administradores)
+ */
+
+/**
+ * @swagger
+ * /api/usuarios:
+ *   get:
+ *     summary: Lista todos los usuarios
+ *     tags: [Usuarios]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Lista de usuarios
+ *       403:
+ *         description: No tienes permisos (requiere rol admin)
+ */
 router.get(
   "/",
   asyncHandler(async (req, res) => {
@@ -18,6 +38,37 @@ router.get(
   })
 );
 
+/**
+ * @swagger
+ * /api/usuarios/{id}/rol:
+ *   put:
+ *     summary: Cambia el rol de un usuario
+ *     tags: [Usuarios]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [role]
+ *             properties:
+ *               role:
+ *                 type: string
+ *                 enum: [admin, user]
+ *     responses:
+ *       200:
+ *         description: Rol actualizado correctamente
+ *       404:
+ *         description: Usuario no encontrado
+ */
 router.put(
   "/:id/rol",
   body("role").isIn(["admin", "user"]).withMessage("El rol debe ser 'admin' o 'user'"),
@@ -28,6 +79,26 @@ router.put(
   })
 );
 
+/**
+ * @swagger
+ * /api/usuarios/{id}:
+ *   delete:
+ *     summary: Elimina un usuario
+ *     tags: [Usuarios]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Usuario eliminado exitosamente
+ *       404:
+ *         description: Usuario no encontrado
+ */
 router.delete(
   "/:id",
   asyncHandler(async (req, res) => {
