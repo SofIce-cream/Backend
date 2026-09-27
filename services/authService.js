@@ -1,20 +1,23 @@
 const jwt = require("jsonwebtoken");
 const Usuario = require("../models/Usuario");
 
-async function registrar({ nombre, email, password, rol }) {
+async function registrar({ nombre, email, password }) {
   const usuarioExistente = await Usuario.findOne({ email });
   if (usuarioExistente)
     throw { status: 400, message: "El email ya está registrado" };
-  const usuario = new Usuario({ nombre, email, password , rol});
-  
+
+  // El role SIEMPRE se asigna por default "user" desde el modelo.
+  // No se acepta desde el body para evitar que cualquiera se autoasigne "admin".
+  const usuario = new Usuario({ nombre, email, password });
+
   await usuario.save();
   const token = generarToken(usuario);
 
   const usuarioObj = usuario.toObject();
   delete usuarioObj.password;
 
-  return { usuario, token };
-};
+  return { usuario: usuarioObj, token };
+}
 
 async function login({ email, password }) {
   const usuario = await Usuario.findOne({ email }).select("+password");
@@ -30,7 +33,7 @@ async function login({ email, password }) {
   const usuarioObj = usuario.toObject();
   delete usuarioObj.password;
 
-  return { usuario, token };
+  return { usuario: usuarioObj, token };
 }
 
 function generarToken(usuario) {
@@ -44,6 +47,7 @@ function generarToken(usuario) {
     { expiresIn: process.env.JWT_EXPIRES_IN || "7d" },
   );
 }
+
 module.exports = { registrar, login, generarToken };
 
 // CORS

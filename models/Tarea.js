@@ -2,13 +2,12 @@ const mongoose = require("mongoose");
 
 const tareaSchema = new mongoose.Schema(
   {
-    text: {
+    titulo: {
       type: String,
-      required: [true, "El campo de texto es obligatorio"],
+      required: [true, "El título es obligatorio"],
       trim: true,
-      minlength: [5, "El texto debe ser una oración válida"],
-      maxlenth: [200, "El texto no puede contener más de 200 caracteres"],
-      trim: true,
+      minlength: [3, "El título debe tener al menos 3 caracteres"],
+      maxlength: [100, "El título no puede tener más de 100 caracteres"],
     },
     descripcion: {
       type: String,
@@ -19,7 +18,7 @@ const tareaSchema = new mongoose.Schema(
       type: String,
       enum:{
         values:['pendiente', 'en_progreso', 'completada'],
-        message: 'El estadp {VALUE} no es válido',
+        message: 'El estado {VALUE} no es válido',
       },
       default: 'pendiente',
     },
@@ -29,6 +28,7 @@ const tareaSchema = new mongoose.Schema(
         values: ["baja", "media", "alta"],
         message: "La prioridad debe ser baja o media o alta",
       },
+      default: "media",
     },
     usuario:{
       type: mongoose.Schema.Types.ObjectId,
@@ -36,7 +36,7 @@ const tareaSchema = new mongoose.Schema(
       required: [true, 'La tarea debe estar vinculada a un usuario'],
     },
   },
-  { timestamps: true }, // createdAt y updatedAt
+  { timestamps: true },
 );
 
 module.exports = mongoose.model("Tarea", tareaSchema);

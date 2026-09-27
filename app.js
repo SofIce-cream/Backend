@@ -7,6 +7,7 @@ const swaggerJsDoc = require("swagger-jsdoc");
 const authRouter = require("./routes/auth");
 const tareasRouter = require("./routes/tareas");
 const triviaRouter = require("./routes/trivia");
+const usuariosRouter = require("./routes/usuarios");
 const errorHandler = require("./middleware/errorHandler");
 
 const app = express();
@@ -21,20 +22,21 @@ if (process.env.NODE_ENV === "development") {
 
 const swaggerOption = {
   swaggerDefinition: {
-    opeanapi: "3.0.0",
+    openapi: "3.0.0",
     info: {
       title: "TaskFlow API",
-      version: "!.0.0",
-      description: "API Restful para gestión de tareas con roles y autenticación JWT"
+      version: "1.0.0",
+      description: "API Restful para gestión de tareas con roles y autenticación JWT",
     },
-    servers: [{
-      url: `https://localhost:${process.env.PORT || 300}`,
-      description: "Local Host",
-    },
+    servers: [
+      {
+        url: `http://localhost:${process.env.PORT || 3000}`,
+        description: "Local Host",
+      },
     ],
     components: {
-      securitySchemes:{
-        bearerAuth:{
+      securitySchemes: {
+        bearerAuth: {
           type: "http",
           scheme: "bearer",
           bearerFormat: "JWT",
@@ -46,7 +48,7 @@ const swaggerOption = {
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOption);
-app.use("/api-docs", swaggerUi.serve, swaggerUi. setup(swaggerDocs));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Ruta de bienvenida
 app.get("/", (req, res) => {
@@ -58,6 +60,7 @@ app.get("/", (req, res) => {
       auth: "/api/auth",
       tareas: "/api/tareas",
       trivia: "/api/trivia",
+      usuarios: "/api/usuarios",
     },
   });
 });
@@ -65,6 +68,7 @@ app.get("/", (req, res) => {
 app.use("/api/tareas", tareasRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/trivia", triviaRouter);
+app.use("/api/usuarios", usuariosRouter);
 
 app.use((req, res) => {
   res.status(404).json({ error: "Ruta no encontrada, petición no existe" });

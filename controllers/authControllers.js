@@ -8,8 +8,9 @@ const registrar = asyncHandler(async (req, res) => {
     .json({ mensaje: "Usuario registrado correctamente", usuario, token });
 });
 
-const login = asyncHandler(async(req,res)=>{
-  const{usuario, token} = await authService.login(req.body);
-  res.status(200).json({mensaje: "Inicio de sesión exitoso", usuario, token});
+const login = asyncHandler(async (req, res) => {
+  const { usuario, token } = await authService.login(req.body);
+  res.status(200).json({ mensaje: "Inicio de sesión exitoso", usuario, token });
 });
-module.exports = { registrar };
+
+module.exports = { registrar, login };
