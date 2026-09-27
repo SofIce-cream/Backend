@@ -10,6 +10,12 @@ API RESTful desarrollada con **Node.js**, **Express** y **MongoDB / Mongoose** p
 
 ---
 
+## 🌐 API Desplegada en Producción
+- **URL Base:** https://backend-sk85.onrender.com
+- **Documentación Swagger:** https://backend-sk85.onrender.com/api-docs
+
+---
+
 ## 📐 Arquitectura del Proyecto
 
 El proyecto sigue el patrón de **arquitectura en capas (Layered Architecture)** para garantizar una separación clara de responsabilidades y un código mantenible:
