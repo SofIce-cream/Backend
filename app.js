@@ -5,9 +5,9 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
 
 const authRouter = require("./routes/auth");
-const tareasRouter = require("./routes/tareas");
-const triviaRouter = require("./routes/trivia");
+const coartadasRouter = require("./routes/coartadas");
 const usuariosRouter = require("./routes/usuarios");
+const rankingsRouter = require("./routes/rankings");
 const errorHandler = require("./middleware/errorHandler");
 
 const app = express();
@@ -24,9 +24,9 @@ const swaggerOption = {
   swaggerDefinition: {
     openapi: "3.0.0",
     info: {
-      title: "TaskFlow API",
+      title: "AlibiForge API",
       version: "1.0.0",
-      description: "API Restful para gestión de tareas con roles y autenticación JWT",
+      description: "API Restful para la fabricación y validación de coartadas, con roles y autenticación JWT",
     },
     servers: [
       {
@@ -53,22 +53,22 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 // Ruta de bienvenida
 app.get("/", (req, res) => {
   res.json({
-    mensaje: "API DE TAREAS",
+    mensaje: "API DE ALIBIFORGE",
     version: "1.0.0",
     documentacion: "/api-docs",
     endpoints: {
       auth: "/api/auth",
-      tareas: "/api/tareas",
-      trivia: "/api/trivia",
+      coartadas: "/api/coartadas",
       usuarios: "/api/usuarios",
+      rankings: "/api/rankings",
     },
   });
 });
 
-app.use("/api/tareas", tareasRouter);
 app.use("/api/auth", authRouter);
-app.use("/api/trivia", triviaRouter);
+app.use("/api/coartadas", coartadasRouter);
 app.use("/api/usuarios", usuariosRouter);
+app.use("/api/rankings", rankingsRouter);
 
 app.use((req, res) => {
   res.status(404).json({ error: "Ruta no encontrada, petición no existe" });
