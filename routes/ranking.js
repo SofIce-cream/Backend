@@ -1,39 +1,30 @@
 const express = require("express");
-const triviaController = require("../controllers/triviaController");
+const rankingController = require("../controllers/rankingController");
+const { autenticar } = require("../middleware/auth");
 
 const router = express.Router();
 
 /**
  * @swagger
  * tags:
- *   name: Trivia
- *   description: Preguntas de trivia (consumo de API externa)
+ *   name: Rankings
+ *   description: Tablas de posiciones (Master of Deceit, Most Creative, etc)
  */
 
 /**
  * @swagger
- * /api/trivia:
+ * /api/rankings:
  *   get:
- *     summary: Obtiene preguntas de trivia desde una API externa
- *     tags: [Trivia]
- *     parameters:
- *       - in: query
- *         name: cantidad
- *         schema:
- *           type: integer
- *           default: 5
- *         description: Número de preguntas (1-20)
- *       - in: query
- *         name: tipo
- *         schema:
- *           type: string
- *           default: multiple
+ *     summary: Obtiene los 4 rankings (masterDeceit, mostCreative, mostConsistent, mostWanted)
+ *     tags: [Rankings]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Lista de preguntas de trivia
- *       400:
- *         description: Cantidad fuera de rango
+ *         description: Rankings calculados
+ *       401:
+ *         description: No autenticado
  */
-router.get("/", triviaController.obtenerTrivia);
+router.get("/", autenticar, rankingController.obtenerRankings);
 
 module.exports = router;

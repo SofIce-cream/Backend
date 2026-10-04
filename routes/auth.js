@@ -5,7 +5,7 @@ const { validarRegistro, validarLogin } = require("../middleware/validators");
 const router = express.Router();
 
 /**
- @swagger
+ * @swagger
  * tags:
  *   name: Auth
  *   description: Registro e inicio de sesión
@@ -23,22 +23,23 @@ const router = express.Router();
  *         application/json:
  *           schema:
  *             type: object
- *             required: [nombre, email, password]
+ *             required: [alias, password]
  *             properties:
- *               nombre:
+ *               alias:
  *                 type: string
- *                 example: Sofía Puerta
- *               email:
- *                 type: string
- *                 example: sofia@example.com
+ *                 example: ShadowHuntress
  *               password:
  *                 type: string
  *                 example: clave123
+ *               especialidad:
+ *                 type: string
+ *                 enum: [Excusa Creativa, Detallista, Improvisador, Conspirador]
+ *                 example: Excusa Creativa
  *     responses:
  *       201:
  *         description: Usuario registrado correctamente
  *       400:
- *         description: Datos inválidos o email ya registrado
+ *         description: Datos inválidos o alias ya en uso
  */
 router.post("/registrar", validarRegistro, authControllers.registrar);
 
@@ -54,11 +55,11 @@ router.post("/registrar", validarRegistro, authControllers.registrar);
  *         application/json:
  *           schema:
  *             type: object
- *             required: [email, password]
+ *             required: [alias, password]
  *             properties:
- *               email:
+ *               alias:
  *                 type: string
- *                 example: sofia@example.com
+ *                 example: ShadowHuntress
  *               password:
  *                 type: string
  *                 example: clave123
@@ -66,7 +67,7 @@ router.post("/registrar", validarRegistro, authControllers.registrar);
  *       200:
  *         description: Login exitoso, devuelve el usuario y el token
  *       401:
- *         description: Credenciales incorrectas
+ *         description: Alias o contraseña incorrectos
  */
 router.post("/login", validarLogin, authControllers.login);
 
