@@ -11,10 +11,8 @@ API RESTful desarrollada con **Node.js**, **Express** y **MongoDB / Mongoose** p
 ---
 
 ## 🌐 API Desplegada en Producción
-- **URL Base:** https://TU-APP.onrender.com
-- **Documentación Swagger:** https://TU-APP.onrender.com/api-docs
-
-> Reemplaza la URL de arriba por la que te asigne Render al desplegar.
+- **URL Base:** https://backend-sk85.onrender.com
+- **Documentación Swagger:** https://backend-sk85.onrender.com/api-docs
 
 ---
 
@@ -150,7 +148,7 @@ npm start
 
 La especificación completa OpenAPI 3.0 con soporte interactivo para probar endpoints (`Try it out`) y autenticación Bearer Token se encuentra disponible en:
 
-👉 **https://TU-APP.onrender.com/api-docs**
+👉 **https://backend-sk85.onrender.com**
 
 ---
 
